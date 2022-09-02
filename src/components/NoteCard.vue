@@ -5,8 +5,7 @@
       <button @click="handleAction('edit', props.index)">Edit</button>
     </div>
     <div v-else>
-      <textarea v-model="userInput" @input="handleUserInput"> </textarea>
-      <br />
+      <textarea v-model="userInput" @input="handleUserInput"></textarea>
       <button @click="handleAction('save', props.index)">Save</button>
     </div>
     <button @click="handleAction('delete', props.index)">Delete</button>
@@ -17,7 +16,7 @@
 import { defineProps, defineEmits, ref } from "vue";
 import { IlistItem } from "./NoteList.vue";
 
-interface IProps {
+export interface IProps {
   item: IlistItem;
   index: number;
   modelValue: string;

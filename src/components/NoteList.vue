@@ -1,12 +1,7 @@
 <template>
   <div>
     <div>
-      <textarea
-        type="text"
-        placeholder="Enter some text"
-        v-model.lazy="message"
-      ></textarea>
-      <br />
+      <ItemInput :message="message" v-model="message" />
       <button @click="addItem(message)" :disabled="!message">Add</button>
     </div>
     <div>
@@ -26,6 +21,7 @@
 
 <script setup lang="ts">
 import NoteCard from "./NoteCard.vue";
+import ItemInput from "./ItemInput.vue";
 import { ref } from "vue";
 
 export interface IlistItem {
