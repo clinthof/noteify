@@ -7,21 +7,22 @@
         v-model="message"
       ></textarea>
       <br />
-      <button>Add</button>
+      <button @click="addItem(message)">Add</button>
     </div>
     <div>
       <ul>
         <li v-for="(item, index) in list" :key="index">
           <div v-if="!item.edit">
             <p>{{ item.text }}</p>
-            <button>Edit</button>
+            <button @click="editItem(index)">Edit</button>
           </div>
           <div v-else>
-            <textarea></textarea>
+            <textarea v-model="item.text"></textarea>
             <br />
-            <button>Save</button>
+            <button @click="saveItem(index)">Save</button>
           </div>
-          <button>Delete</button>
+          <br />
+          <button @click="deleteItem(index)">Delete</button>
         </li>
       </ul>
     </div>
@@ -39,20 +40,21 @@ interface IlistItem {
 const message = ref("");
 const list = ref<IlistItem[]>([]);
 
-const addItem = (newItem: IlistItem) => {
-  return;
+const addItem = (newItem: string) => {
+  list.value.push({ text: newItem, edit: false });
+  message.value = "";
 };
 
 const deleteItem = (i: number) => {
-  return;
+  list.value.splice(i, 1);
 };
 
 const editItem = (i: number) => {
-  return;
+  list.value[i].edit = true;
 };
 
 const saveItem = (i: number) => {
-  return;
+  list.value[i].edit = false;
 };
 </script>
 
