@@ -14,15 +14,14 @@
         <li v-for="(item, index) in list" :key="index">
           <div v-if="!item.edit">
             <p>{{ item.text }}</p>
-            <button @click="editItem(index)">Edit</button>
+            <button @click="handleItemAction('edit', index)">Edit</button>
           </div>
           <div v-else>
             <textarea v-model="item.text"></textarea>
             <br />
-            <button @click="saveItem(index)">Save</button>
+            <button @click="handleItemAction('save', index)">Save</button>
           </div>
-          <br />
-          <button @click="deleteItem(index)">Delete</button>
+          <button @click="handleItemAction('delete', index)">Delete</button>
         </li>
       </ul>
     </div>
@@ -40,21 +39,26 @@ interface IlistItem {
 const message = ref("");
 const list = ref<IlistItem[]>([]);
 
+if (window.localStorage.getItem("notes") !== null) {
+  list.value = JSON.parse(window.localStorage.getItem("notes") as string);
+}
+
 const addItem = (newItem: string) => {
   list.value.push({ text: newItem, edit: false });
+  window.localStorage.setItem("notes", JSON.stringify(list.value));
   message.value = "";
 };
 
-const deleteItem = (i: number) => {
-  list.value.splice(i, 1);
-};
+const handleItemAction = (action: string, i: number) => {
+  if (action === "edit") {
+    list.value[i].edit = true;
+  } else if (action === "save") {
+    list.value[i].edit = false;
+  } else if (action === "delete") {
+    list.value.splice(i, 1);
+  }
 
-const editItem = (i: number) => {
-  list.value[i].edit = true;
-};
-
-const saveItem = (i: number) => {
-  list.value[i].edit = false;
+  window.localStorage.setItem("notes", JSON.stringify(list.value));
 };
 </script>
 
